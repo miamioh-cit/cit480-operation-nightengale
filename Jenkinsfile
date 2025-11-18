@@ -22,15 +22,15 @@ pipeline {
             python3 get-pip.py --user
           fi
     
-          echo "[*] Installing Python dependencies..."
-          python3 -m pip install --user -r requirements.txt
+          echo "[*] Installing Python dependencies (with pydantic<1.10)..."
+          python3 -m pip install --user --upgrade --force-reinstall -r requirements.txt
     
           echo "[*] Building CIT480 Operation Nightingale GNS3 topology..."
           python3 build_cit480_topology.py
         '''
       }
     }
-
+    
     stage('Install & Start Splunk on SIEM') {
       steps {
         withCredentials([usernamePassword(
