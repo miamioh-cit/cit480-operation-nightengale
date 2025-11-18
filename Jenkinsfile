@@ -1,10 +1,12 @@
 pipeline {
   agent any
 
-  environment {
-    SOC_SIEM_IP = "10.99.10.20"
-    SPLUNK_TGZ_URL = "https://download.splunk.com/products/splunk/releases/9.2.0/linux/splunk-9.2.0-a1234567890-Linux-x86_64.tgz"
-  }
+environment {
+  SOC_SIEM_IP = "10.99.10.20"
+  SPLUNK_TGZ_URL = "https://download.splunk.com/products/splunk/releases/9.2.0/linux/splunk-9.2.0-a1234567890-Linux-x86_64.tgz"
+  LAB_NAME = "cit480-operation-nightingale-${BUILD_NUMBER}"
+}
+
 
   stages {
     stage('Checkout') {
