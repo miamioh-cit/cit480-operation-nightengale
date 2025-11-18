@@ -1,8 +1,11 @@
 import logging
+import os
 from gns3fy import Gns3Connector, Project
 
-LAB_NAME = "cit480-operation-nightingale-2"
+DEFAULT_LAB_NAME = "cit480-operation-nightingale"
+LAB_NAME = os.getenv("LAB_NAME", DEFAULT_LAB_NAME)
 BASE_IP = "http://10.48.229."
+
 
 # Read last octets from datastore file
 try:
