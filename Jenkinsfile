@@ -16,20 +16,20 @@ pipeline {
     stage('Build GNS3 Topology') {
       steps {
         sh '''
-          echo "[*] Bootstrapping pip locally..."
-          curl -sS https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-          python3 get-pip.py --user
+          echo "[*] Bootstrapping pip locally (if needed)..."
+          if ! python3 -m pip --version >/dev/null 2>&1; then
+            curl -sS https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+            python3 get-pip.py --user
+          fi
     
           echo "[*] Installing Python dependencies..."
-          ~/.local/bin/pip3 install --user -r requirements.txt
+          python3 -m pip install --user -r requirements.txt
     
           echo "[*] Building CIT480 Operation Nightingale GNS3 topology..."
-          ~/.local/bin/python3 build_cit480_topology.py
+          python3 build_cit480_topology.py
         '''
       }
     }
-
-
 
     stage('Install & Start Splunk on SIEM') {
       steps {
