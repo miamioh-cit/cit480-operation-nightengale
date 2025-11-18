@@ -1,2 +1,3 @@
-gns3fy>=0.8.0
+gns3fy==0.8.0
 requests>=2.31.0
+pydantic==1.9.2
