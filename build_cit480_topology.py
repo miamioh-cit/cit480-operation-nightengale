@@ -1,7 +1,7 @@
 import logging
 from gns3fy import Gns3Connector, Project
 
-LAB_NAME = "cit480-operation-nightingale-1"
+LAB_NAME = "cit480-operation-nightingale-2"
 BASE_IP = "http://10.48.229."
 
 # Read last octets from datastore file
