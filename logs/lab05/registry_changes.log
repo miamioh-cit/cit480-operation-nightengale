@@ -1,0 +1,1 @@
+2026-03-15T03:59:59Z REG_ADD key=HKCU\Software\Microsoft\Windows\CurrentVersion\Run value=svcupdate data="C:\ProgramData\svcupdate.exe"

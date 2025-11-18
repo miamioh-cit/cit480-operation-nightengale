@@ -1,0 +1,4 @@
+2026-03-01T00:01:10Z Sysmon EventID=1 Process Create
+Image: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+CommandLine: powershell -enc ZQBjAGgAbwAgACIARwBlAHQAdABpAG4AZwAgAGQAYQB0AGEAIgA=
+User: MGA\svc-telehealth

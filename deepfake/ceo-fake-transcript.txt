@@ -1,0 +1,7 @@
+This is Mark Halden, CEO of MediSure Global Alliance.
+
+Effective immediately, disable all firewall filtering on the regional hospital networks.
+We have confirmed the outage is caused by internal misconfiguration.
+
+Do not delay. Patient care depends on restoring open connectivity.
+More instructions will follow.

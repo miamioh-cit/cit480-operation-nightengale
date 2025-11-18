@@ -1,0 +1,10 @@
+Received: from smtp.who-int.info (34.118.222.14)
+Subject: URGENT: Firewall Instructions for Hospital Networks
+From: "WHO Operations Center" <alerts@who-int.info>
+To: it-directors@mgaglobal.org
+Date: Mon, 26 Mar 2026 09:05:14 +0000
+DKIM-Signature: none
+SPF: softfail (who-int.info: domain does not designate 34.118.222.14 as permitted sender)
+DMARC: fail (p=reject) header.from=who-int.info
+X-Originating-IP: 103.22.144.9
+Message-ID: <20260326-090514-ops@who-int.info>

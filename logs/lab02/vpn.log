@@ -1,0 +1,4 @@
+2026-03-05T02:11:01Z LOGIN_FAIL user=svc-imaging src_ip=201.57.22.94 reason=bad_password
+2026-03-05T02:11:03Z LOGIN_FAIL user=svc-imaging src_ip=201.57.22.94 reason=bad_password
+2026-03-05T02:11:05Z LOGIN_FAIL user=svc-imaging src_ip=201.57.22.94 reason=bad_password
+2026-03-05T02:11:47Z LOGIN_SUCCESS user=svc-imaging src_ip=201.57.22.94 mfa=push_approved

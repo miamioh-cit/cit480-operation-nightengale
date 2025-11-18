@@ -1,0 +1,22 @@
+TITLE: "Emergency Directive from CEO"
+
+Scene:
+- Background: Generic executive office, blurred bookshelf, neutral artwork.
+- Lighting: Warm, late afternoon; slight vignette to hide imperfections.
+- Camera: Static, medium shot (head and shoulders).
+
+Script:
+- Use cloned voice model based on prior public speeches.
+- Lip-sync video frames to transcript text.
+- Add light compression artifacts to reduce uncanny details.
+
+Generation steps (for attacker – fictional, for analysis only):
+1. Collect 5–10 minutes of past CEO speech footage.
+2. Train voice and face model.
+3. Render 30–45 second clip reading ceo-fake-transcript.txt.
+4. Export as 720p MP4 with filename "WHO_CEO_Update_0326.mp4".
+
+Distribution plan:
+- Host on cloned WHO-like site (who-int.info).
+- Share link via email and WhatsApp hospital admin groups.
+- Include fake WHO bulletin to increase credibility.

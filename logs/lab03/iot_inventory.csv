@@ -1,0 +1,5 @@
+device_id,ip_address,location,firmware_version,critical
+pump-101,10.50.1.21,ICU-1,1.0.3,true
+pump-102,10.50.1.22,ICU-1,1.0.3,true
+sensor-temp-01,10.50.1.31,ICU-1,2.1.0,false
+gateway-icu-01,10.50.1.10,ICU-1,3.0.0,true

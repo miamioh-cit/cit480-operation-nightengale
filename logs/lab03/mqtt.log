@@ -1,0 +1,4 @@
+2026-03-09T10:01:02Z CONNECT client_id=pump-101 ip=10.50.1.21
+2026-03-09T10:01:03Z SUBSCRIBE client_id=pump-101 topic=devices/pump/control
+2026-03-09T10:05:11Z PUBLISH client_id=attacker-01 topic=devices/pump/control/override payload="dose=+2.0"
+2026-03-09T10:05:13Z PUBLISH client_id=pump-101 topic=devices/pump/status payload="dose_applied=+2.0"
