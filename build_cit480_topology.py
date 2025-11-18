@@ -26,7 +26,7 @@ TEMPLATE_IOSV = "Cisco IOSv 15.5(3)M"
 TEMPLATE_IOSVL2 = "Cisco IOSvL2 15.2.1"
 TEMPLATE_WIN10 = "Windows 10 w/ Edge"
 TEMPLATE_WINSRV = "Windows Server 2022"
-TEMPLATE_UBUNTU = "Ubuntu Server 22.04"
+TEMPLATE_UBUNTU = "ubuntu"
 TEMPLATE_CLOUD = "Cloud"
 
 # IOS router configs with IPs + OSPF + DHCP
