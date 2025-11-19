@@ -389,7 +389,7 @@ for SERVER_URL in SERVER_URLS:
 
     lab.create_link("soc-rtr", "Gi0/1", "soc-sw", "Gi0/0")
     lab.create_link("soc-siem-01", "Ethernet0", "soc-sw", "Gi0/1")
-    lab.create_link("soc-analyst-01", "Ethernet0", "soc-sw", "Gi0/2")
+    lab.create_link("soc-analyst-01", "NIC1", "soc-sw", "Gi0/2")
 
     lab.create_link("cloud-rtr", "Gi0/1", "cloud-sw", "Gi0/0")
     lab.create_link("cloud-web-01", "Ethernet0", "cloud-sw", "Gi0/1")
