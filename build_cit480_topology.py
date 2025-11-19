@@ -397,7 +397,7 @@ for SERVER_URL in SERVER_URLS:
 
     lab.create_link("ot-rtr", "Gi0/1", "ot-sw", "Gi0/0")
     lab.create_link("plc-sim-01", "Ethernet0", "ot-sw", "Gi0/1")
-    lab.create_link("bms-01", "Ethernet0", "ot-sw", "Gi0/2")
+    lab.create_link("bms-01", "NIC1", "ot-sw", "Gi0/2")
 
     lab.create_link("us-edge", "Gi0/1", "us-sw", "Gi0/0")
     lab.create_link("us-ehr-01", "Ethernet0", "us-sw", "Gi0/1")
