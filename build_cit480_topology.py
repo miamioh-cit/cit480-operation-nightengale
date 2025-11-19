@@ -2,16 +2,25 @@ import logging
 import os
 from gns3fy import Gns3Connector, Project
 
-DEFAULT_LAB_NAME = "cit480-operation-nightingale"
-LAB_NAME = os.getenv("LAB_NAME", DEFAULT_LAB_NAME)
-BASE_IP = "http://10.48.229."
+# -------------------------------------------------------------------
+# Lab name and GNS3 server configuration
+# -------------------------------------------------------------------
 
+DEFAULT_LAB_NAME = "cit480-operation-nightingale"
+# Jenkins will set LAB_NAME in the environment, e.g. cit480-operation-nightingale-42
+LAB_NAME = os.getenv("LAB_NAME", DEFAULT_LAB_NAME)
+
+BASE_IP = "http://10.48.229."
 
 # Read last octets from datastore file
 try:
     with open("datastore", "r") as f:
         content = f.read().strip()
-        SERVER_LAST_OCTETS = [int(octet.strip()) for octet in content.split(",") if octet.strip().isdigit()]
+        SERVER_LAST_OCTETS = [
+            int(octet.strip())
+            for octet in content.split(",")
+            if octet.strip().isdigit()
+        ]
 except Exception as e:
     print("Error reading datastore file:", e)
     SERVER_LAST_OCTETS = []
@@ -29,12 +38,16 @@ TEMPLATE_IOSV = "Cisco IOSv 15.5(3)M"
 TEMPLATE_IOSVL2 = "Cisco IOSvL2 15.2.1"
 TEMPLATE_WIN10 = "Windows 10 w/ Edge"
 TEMPLATE_WINSRV = "Windows Server 2022"
-TEMPLATE_UBUNTU = "ubuntu"
+TEMPLATE_UBUNTU = "Ubuntu Server 22.04"
 TEMPLATE_CLOUD = "Cloud"
 
+# -------------------------------------------------------------------
 # IOS router configs with IPs + OSPF + DHCP
+# -------------------------------------------------------------------
+
 ROUTER_CONFIGS = {
-    "core-rtr": """hostname core-rtr
+    "core-rtr": """
+hostname core-rtr
 no ip domain-lookup
 !
 interface GigabitEthernet0/0
@@ -90,8 +103,8 @@ line vty 0 4
 !
 end
 """,
-
-    "us-edge": """hostname us-edge
+    "us-edge": """
+hostname us-edge
 no ip domain-lookup
 !
 interface GigabitEthernet0/0
@@ -123,8 +136,8 @@ line vty 0 4
 !
 end
 """,
-
-    "uk-edge": """hostname uk-edge
+    "uk-edge": """
+hostname uk-edge
 no ip domain-lookup
 !
 interface GigabitEthernet0/0
@@ -156,8 +169,8 @@ line vty 0 4
 !
 end
 """,
-
-    "sg-edge": """hostname sg-edge
+    "sg-edge": """
+hostname sg-edge
 no ip domain-lookup
 !
 interface GigabitEthernet0/0
@@ -189,8 +202,8 @@ line vty 0 4
 !
 end
 """,
-
-    "cloud-rtr": """hostname cloud-rtr
+    "cloud-rtr": """
+hostname cloud-rtr
 no ip domain-lookup
 !
 interface GigabitEthernet0/0
@@ -222,8 +235,8 @@ line vty 0 4
 !
 end
 """,
-
-    "soc-rtr": """hostname soc-rtr
+    "soc-rtr": """
+hostname soc-rtr
 no ip domain-lookup
 !
 interface GigabitEthernet0/0
@@ -255,8 +268,8 @@ line vty 0 4
 !
 end
 """,
-
-    "ot-rtr": """hostname ot-rtr
+    "ot-rtr": """
+hostname ot-rtr
 no ip domain-lookup
 !
 interface GigabitEthernet0/0
@@ -290,6 +303,10 @@ end
 """
 }
 
+# -------------------------------------------------------------------
+# Helper to apply configs
+# -------------------------------------------------------------------
+
 def apply_router_configs(lab: Project):
     for router_name, cfg in ROUTER_CONFIGS.items():
         try:
@@ -300,9 +317,14 @@ def apply_router_configs(lab: Project):
         except Exception as e:
             print(f"[!] Failed to apply config to {router_name}: {e}")
 
+# -------------------------------------------------------------------
+# Main project creation loop
+# -------------------------------------------------------------------
+
 for SERVER_URL in SERVER_URLS:
     server = Gns3Connector(url=SERVER_URL, user=GNS3_USER, cred=GNS3_PW)
-    print("Connecting to GNS3 server", server.get_version(), "at", SERVER_URL)
+    print(f"Connecting to GNS3 server {SERVER_URL}, version: {server.get_version()}")
+    print(f"[*] Using LAB_NAME = {LAB_NAME}")
 
     server.create_project(name=LAB_NAME)
     print(f"Project '{LAB_NAME}' created on {SERVER_URL}")
@@ -314,7 +336,9 @@ for SERVER_URL in SERVER_URLS:
     available_templates = [template["name"] for template in server.get_templates()]
     logging.debug(f"Available Templates: {available_templates}")
 
+    # ----------------------------------------------------------------
     # CORE / INTERNET / SOC / CLOUD / OT
+    # ----------------------------------------------------------------
     lab.create_node(name="internet", template=TEMPLATE_CLOUD, x=-200, y=-200)
 
     lab.create_node(name="core-rtr", template=TEMPLATE_IOSV, x=-50, y=-200)
@@ -352,7 +376,9 @@ for SERVER_URL in SERVER_URLS:
     lab.create_node(name="sg-web-01", template=TEMPLATE_UBUNTU, x=-300, y=250)
     lab.create_node(name="sg-db-01", template=TEMPLATE_UBUNTU, x=-300, y=330)
 
+    # ----------------------------------------------------------------
     # LINKS
+    # ----------------------------------------------------------------
     lab.create_link("internet", "eth0", "core-rtr", "Gi0/0")
     lab.create_link("core-rtr", "Gi0/1", "us-edge", "Gi0/0")
     lab.create_link("core-rtr", "Gi0/2", "uk-edge", "Gi0/0")
@@ -362,31 +388,33 @@ for SERVER_URL in SERVER_URLS:
     lab.create_link("core-rtr", "Gi0/6", "ot-rtr", "Gi0/0")
 
     lab.create_link("soc-rtr", "Gi0/1", "soc-sw", "Gi0/0")
-    lab.create_link("soc-siem-01", "NIC1", "soc-sw", "Gi0/1")
-    lab.create_link("soc-analyst-01", "NIC1", "soc-sw", "Gi0/2")
+    lab.create_link("soc-siem-01", "Ethernet0", "soc-sw", "Gi0/1")
+    lab.create_link("soc-analyst-01", "Ethernet0", "soc-sw", "Gi0/2")
 
     lab.create_link("cloud-rtr", "Gi0/1", "cloud-sw", "Gi0/0")
-    lab.create_link("cloud-web-01", "NIC1", "cloud-sw", "Gi0/1")
-    lab.create_link("cloud-api-01", "NIC1", "cloud-sw", "Gi0/2")
+    lab.create_link("cloud-web-01", "Ethernet0", "cloud-sw", "Gi0/1")
+    lab.create_link("cloud-api-01", "Ethernet0", "cloud-sw", "Gi0/2")
 
     lab.create_link("ot-rtr", "Gi0/1", "ot-sw", "Gi0/0")
-    lab.create_link("plc-sim-01", "NIC1", "ot-sw", "Gi0/1")
-    lab.create_link("bms-01", "NIC1", "ot-sw", "Gi0/2")
+    lab.create_link("plc-sim-01", "Ethernet0", "ot-sw", "Gi0/1")
+    lab.create_link("bms-01", "Ethernet0", "ot-sw", "Gi0/2")
 
     lab.create_link("us-edge", "Gi0/1", "us-sw", "Gi0/0")
     lab.create_link("us-ehr-01", "Ethernet0", "us-sw", "Gi0/1")
-    lab.create_link("us-iot-gw-01", "NIC1", "us-sw", "Gi0/2")
+    lab.create_link("us-iot-gw-01", "Ethernet0", "us-sw", "Gi0/2")
     lab.create_link("us-ad-01", "Ethernet0", "us-sw", "Gi0/3")
 
     lab.create_link("uk-edge", "Gi0/1", "uk-sw", "Gi0/0")
     lab.create_link("uk-img-01", "Ethernet0", "uk-sw", "Gi0/1")
-    lab.create_link("uk-ehr-01", "NIC1", "uk-sw", "Gi0/2")
+    lab.create_link("uk-ehr-01", "Ethernet0", "uk-sw", "Gi0/2")
 
     lab.create_link("sg-edge", "Gi0/1", "sg-sw", "Gi0/0")
-    lab.create_link("sg-web-01", "NIC1", "sg-sw", "Gi0/1")
-    lab.create_link("sg-db-01", "NIC1", "sg-sw", "Gi0/2")
+    lab.create_link("sg-web-01", "Ethernet0", "sg-sw", "Gi0/1")
+    lab.create_link("sg-db-01", "Ethernet0", "sg-sw", "Gi0/2")
 
+    # ----------------------------------------------------------------
     # Autostart & start nodes
+    # ----------------------------------------------------------------
     lab.get_nodes()
     for node in lab.nodes:
         try:
